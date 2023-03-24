@@ -48,7 +48,7 @@ Ejecución:
 - En SO Windows:
 	- Escribir cmd en la ventana Buscar y posteriormente hacer clic en Simbolo del Sistema.
 	- Con el comando cd llegar al directorio donde se encuentra el jar.
-	- Ejecutar el comando java -jar api-usuarios-0.0.1-SNAPSHOT.jar. En este únto se iniciará el servicio. Serán los siguientes mensajes que indicarán que está cargado
+	- Ejecutar el comando "java -jar api-usuarios.jar" para levantar el servicio, serán los siguientes mensajes que indicarán que levantó correctamente
 		- Tomcat started on port(s): 8001 (http) with context path ''
 		- Started ApiUsuariosApplication in 16.958 seconds (JVM running for 20.911)	
 - Luego que esté cargado, en la barra de direcciones del navegador web escribir http://localhost:8001/swagger-ui/index.html.
