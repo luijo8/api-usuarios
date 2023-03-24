@@ -21,6 +21,8 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.AuthorizationScope;
 
+@EnableSwagger2
+@Configuration
 public class SwaggerConfig {
 	
 	@Bean
