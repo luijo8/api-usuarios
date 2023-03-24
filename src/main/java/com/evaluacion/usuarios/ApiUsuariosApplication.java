@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.evaluacion.security.JWTAuthorizationFilter;
+import com.evaluacion.usuarios.security.JWTAuthorizationFilter;
 
 
 @SpringBootApplication
@@ -23,16 +23,14 @@ public class ApiUsuariosApplication {
 	@EnableWebSecurity
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-		
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			 http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/api/usuarios/createtoken").permitAll()
-			.anyRequest().authenticated()
-			;
+			.antMatchers(HttpMethod.POST, "/user").permitAll()
+			.anyRequest().authenticated();
 		}
 		
 		@Override
@@ -40,7 +38,7 @@ public class ApiUsuariosApplication {
 	        web.ignoring()
 	           .antMatchers("/h2-console/**")
 	           .antMatchers("/v2/api-docs",
-	        		        "/v3/api-docs",
+	        		        "/api/v2/api-docs",
        		        		"/configuration/ui",  
        		        		"/configuration/security", 
 	                        "/webjars/**",
@@ -54,7 +52,7 @@ public class ApiUsuariosApplication {
 	    					"/actuator/health",
 	    					"/api/usuarios/swagger-ui/index.html"
 	                        );
-	    }			
-	}
+	    }	
+	}	
 
 }

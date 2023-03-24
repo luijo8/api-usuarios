@@ -15,8 +15,8 @@ import com.evaluacion.usuarios.dto.DtoToken;
 import com.evaluacion.usuarios.dto.DtoUsuario;
 import com.evaluacion.usuarios.dto.IDtoListaUsuarios;
 import com.evaluacion.usuarios.entity.Usuario;
+import com.evaluacion.usuarios.security.JWTToken;
 import com.evaluacion.utils.Utilidades;
-import com.evaluacion.security.JWTToken;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
