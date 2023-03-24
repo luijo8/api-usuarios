@@ -57,6 +57,12 @@ Ejecución:
 		- El endpoint "Crea Token Acceso" requiere id y contraseña.
 	- Para los endpoints restantes debe autorizar mediante el token recibido en el paso anterior. de lo contrario 
 	  recibirá error http código 403.
+- Para acceder a la BD H2:
+	- http://localhost:8003/h2-console/
+	- Driver Class: org.h2.Driver
+	- JDBC URL: jdbc:h2:mem:testdb
+	- User Name: sa
+	- Password: sa
 
 Notas: 
 - El sistema carga por defecto datos del usuario admin, estas son las credenciales para acceder a crear el token:
