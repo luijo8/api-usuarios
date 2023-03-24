@@ -39,6 +39,9 @@ Herramientas Utilizadas:
 - Spring Boot.
 - Maven.
 - Eclipse - Spring Tools IDE.
+- H2.
+- JWT.
+- Swagger.
 
 Ejecución:
 - Descargar ejecutable api-usuarios-0.0.1-SNAPSHOT.jar.
@@ -48,4 +51,17 @@ Ejecución:
 	- Ejecutar el comando java -jar api-usuarios-0.0.1-SNAPSHOT.jar. En este únto se iniciará el servicio. Serán los siguientes mensajes que indicarán que está cargado
 		- Tomcat started on port(s): 8001 (http) with context path ''
 		- Started ApiUsuariosApplication in 16.958 seconds (JVM running for 20.911)	
-- Luego que esté cargado, en la barra de direcciones del navegador web escribir http://localhost:8001/swagger-ui/index.html
+- Luego que esté cargado, en la barra de direcciones del navegador web escribir http://localhost:8001/swagger-ui/index.html.
+	- En la página de swagger acceder al tag Usuarios [Usuarios Controllers].
+	- Usar el endpoint "Crea Token Acceso" para obtener el token de acceso al resto de los endpoints.
+		- El endpoint "Crea Token Acceso" requiere id y contraseña.
+	- Para los endpoints restantes debe autorizar mediante el token recibido en el paso anterior. de lo contrario 
+	  recibirá error http código 403.
+
+Notas: 
+- El sistema carga por defecto datos del usuario admin, estas son las credenciales para acceder a crear el token:
+	- id: 726ea0dd-9986-38e8-a87f-8e344d373533
+	- password: admin123*
+
+	
+
