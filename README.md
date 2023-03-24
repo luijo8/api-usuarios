@@ -71,7 +71,7 @@ Notas:
 - En el directorio "anexos" se encuentra:
 	- Ejecutable Jar.
 	- Diagrama de la solución.
-	- Script de base de datos (para postgresql).
+	- Script de base de datos (para postgresql). Ejecutar de acuerdo a la numeración.
 
 	
 
