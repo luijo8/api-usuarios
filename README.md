@@ -49,9 +49,9 @@ Ejecución:
 	- Escribir cmd en la ventana Buscar y posteriormente hacer clic en Simbolo del Sistema.
 	- Con el comando cd llegar al directorio donde se encuentra el jar.
 	- Ejecutar el comando "java -jar api-usuarios.jar" para levantar el servicio, serán los siguientes mensajes que indicarán que levantó correctamente
-		- Tomcat started on port(s): 8001 (http) with context path ''
+		- Tomcat started on port(s): 8003 (http) with context path ''
 		- Started ApiUsuariosApplication in 16.958 seconds (JVM running for 20.911)	
-- Luego que esté cargado, en la barra de direcciones del navegador web escribir http://localhost:8001/swagger-ui/index.html.
+- Luego que esté cargado, en la barra de direcciones del navegador web escribir http://localhost:8003/swagger-ui/index.html.
 	- En la página de swagger acceder al tag Usuarios [Usuarios Controllers].
 	- Usar el endpoint "Crea Token Acceso" para obtener el token de acceso al resto de los endpoints.
 		- El endpoint "Crea Token Acceso" requiere id y contraseña.
