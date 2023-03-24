@@ -68,6 +68,10 @@ Notas:
 - El sistema carga por defecto datos del usuario admin, estas son las credenciales para acceder a crear el token:
 	- id: 726ea0dd-9986-38e8-a87f-8e344d373533
 	- password: admin123*
+- En el directorio "anexos" se encuentra:
+	- Ejecutable Jar.
+	- Diagrama de la solución.
+	- Script de base de datos.
 
 	
 
