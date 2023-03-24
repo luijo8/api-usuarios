@@ -44,7 +44,7 @@ Herramientas Utilizadas:
 - Swagger.
 
 Ejecución:
-- Descargar ejecutable api-usuarios.
+- Descargar ejecutable "api-usuarios.jar".
 - En SO Windows:
 	- Escribir cmd en la ventana Buscar y posteriormente hacer clic en Simbolo del Sistema.
 	- Con el comando cd llegar al directorio donde se encuentra el jar.
