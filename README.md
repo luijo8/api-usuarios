@@ -44,7 +44,7 @@ Herramientas Utilizadas:
 - Swagger.
 
 Ejecución:
-- Descargar ejecutable api-usuarios-0.0.1-SNAPSHOT.jar.
+- Descargar ejecutable api-usuarios.
 - En SO Windows:
 	- Escribir cmd en la ventana Buscar y posteriormente hacer clic en Simbolo del Sistema.
 	- Con el comando cd llegar al directorio donde se encuentra el jar.
@@ -57,7 +57,7 @@ Ejecución:
 		- El endpoint "Crea Token Acceso" requiere id y contraseña.
 	- Para los endpoints restantes debe autorizar mediante el token recibido en el paso anterior. de lo contrario 
 	  recibirá error http código 403.
-- Para acceder a la BD H2:
+- Para acceder a la BD H2: debe estar arriba el servicio.
 	- http://localhost:8003/h2-console/
 	- Driver Class: org.h2.Driver
 	- JDBC URL: jdbc:h2:mem:testdb
