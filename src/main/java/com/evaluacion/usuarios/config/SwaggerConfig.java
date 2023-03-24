@@ -1,11 +1,14 @@
 package com.evaluacion.usuarios.config;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
+
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -24,14 +27,17 @@ public class SwaggerConfig {
 	
 	@Bean
 	public Docket api() {
-	    return new Docket(DocumentationType.SWAGGER_2)
-	      .apiInfo(apiInfo())
-	      .securityContexts(Arrays.asList(securityContext()))
-	      .securitySchemes(Arrays.asList(apiKey()))
-	      .select()
-	      .apis(RequestHandlerSelectors.any())
-	      .paths(PathSelectors.any())
-	      .build();
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .select()
+                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.evaluacion.usuarios.controllers"))
+                .build()
+                .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(Arrays.asList(securityContext()))
+                .pathMapping("/")
+                .useDefaultResponseMessages(false)
+                .directModelSubstitute(LocalDate.class, String.class)
+                .genericModelSubstitutes(ResponseEntity.class);
 	}
 
 	private ApiInfo apiInfo() {
