@@ -40,7 +40,7 @@ Herramientas Utilizadas:
 - Maven.
 - Eclipse - Spring Tools IDE.
 - H2.
-- JWT.
+- JWT. Para un proyecto real, en este punto deberíamos desarrollar mejor la autenticación del usuario.
 - Swagger.
 
 Ejecución:
