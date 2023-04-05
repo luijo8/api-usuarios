@@ -39,7 +39,7 @@ public class ApiUsuariosApplication {
 			 http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/api/usuarios/createtoken").permitAll()
+			.antMatchers(HttpMethod.POST, "/api/user/signin").permitAll()
 			.anyRequest().authenticated();
 		}
 		

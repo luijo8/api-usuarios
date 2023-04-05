@@ -47,10 +47,7 @@ public class SwaggerConfig {
 				"1.0",
 				"https://trabajaenbci.cl/areas-de-interes",
 				new Contact("BCI Empleos", "https://trabajaenbci.cl/", "soporte@trabajaenbci.cl"),
-				"Licencia de la API",
-				"URL asociadoa la licencia de la API",
-				Collections.emptyList()
-				);
+				"Licencia de la API","URL asociada la licencia de la API",	Collections.emptyList());
 	}
 	
 	private ApiKey apiKey() { 

@@ -22,20 +22,20 @@ public class UsuariosControllers {
 	private IUsuarioService usuarioService;
 
 	@ApiOperation(value = "Crea Token Acceso")
-	@PostMapping("/api/usuarios/createtoken")
+	@PostMapping("/api/user/signin")
 	public ResponseEntity<Object> createToken(@RequestHeader(required = true, name = "id") String id,
 			@RequestHeader(required = true, name = "password") String password) {
 		return usuarioService.validaUsuario(id, password, true);
 	}
 
 	@ApiOperation(value = "Crea Usuario")
-	@PostMapping("/api/usuarios/")
+	@PostMapping("/api/user")
 	public ResponseEntity<Object> createTest(@RequestBody(required = true) DtoRequestUsuario newUser) {
 		return usuarioService.crear(newUser);
 	}
 
 	@ApiOperation(value = "Lista Usuarios")
-	@GetMapping("/api/usuarios/getall")
+	@GetMapping("/api/user/getall")
 	public ResponseEntity<Object> getAll() {
 		return usuarioService.listaUsuarios();
 	}
