@@ -1,21 +1,22 @@
 package com.evaluacion.usuarios.service;
 
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.evaluacion.security.JWTToken;
 import com.evaluacion.usuarios.dao.IPhoneDao;
 import com.evaluacion.usuarios.dao.IUsuarioDao;
-import com.evaluacion.usuarios.dto.DtoError;
-import com.evaluacion.usuarios.dto.DtoToken;
-import com.evaluacion.usuarios.dto.DtoUsuario;
-import com.evaluacion.usuarios.dto.IDtoListaUsuarios;
+import com.evaluacion.usuarios.dto.DtoRequestUsuario;
+import com.evaluacion.usuarios.dto.DtoResponseError;
+import com.evaluacion.usuarios.dto.DtoResponseUsuario;
+import com.evaluacion.usuarios.dto.DtoResponseToken;
 import com.evaluacion.usuarios.entity.Usuario;
-import com.evaluacion.usuarios.security.JWTToken;
 import com.evaluacion.utils.Utilidades;
 
 @Service
@@ -26,6 +27,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
 	private IPhoneDao phoneDao;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -33,58 +37,59 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		try {
 			Usuario usr = usuarioDao.findByIdAndPasswordAndIsActive(id, password, isActive);
 			if (usr == null)
-				return ResponseEntity.status(403).body(new DtoError("Credenciales inválidas!"));
+				return ResponseEntity.status(403).body(new DtoResponseError("Credenciales inválidas!"));
 			
-			DtoToken token = new DtoToken(JWTToken.getJWTToken(id, usr.getId()));
+			DtoResponseToken token = new DtoResponseToken(JWTToken.getJWTToken(id, usr.getId()));
 			if (token == null || token.getToken().isBlank())
-				return ResponseEntity.status(500).body(new DtoError("Error al generar el Token!"));
+				return ResponseEntity.status(500).body(new DtoResponseError("Error al generar el Token!"));
 			else 
-				return ResponseEntity.status(201).body(new DtoToken(JWTToken.getJWTToken(id, usr.getId())));
+				return ResponseEntity.status(201).body(new DtoResponseToken(JWTToken.getJWTToken(id, usr.getId())));
 		}catch (Exception e) {
-			return ResponseEntity.status(500).body(new DtoError(e.getMessage()));
+			return ResponseEntity.status(500).body(new DtoResponseError(e.getMessage()));
 		}
 	}
-
+	
 	@Override
 	@Transactional(readOnly = true)
-	public List<IDtoListaUsuarios> listaUsuarios() {
-		return usuarioDao.listaUsuarios();
+	public ResponseEntity<Object> listaUsuarios() {
+		return ResponseEntity.status(201).body(
+				usuarioDao.findAll().stream().map(
+						usuario -> modelMapper.map(
+								usuario, DtoResponseUsuario.class)).collect(Collectors.toList()));
 	}
-
+	
 	@Override
 	@Transactional
-	public ResponseEntity<Object> crear(Usuario newUser) {
+	public ResponseEntity<Object> crear(DtoRequestUsuario userDto) {
 		try {
+			Usuario newUser = modelMapper.map(userDto, Usuario.class);
 			if (newUser.getEmail() == null || newUser.getEmail().isBlank())
-				return ResponseEntity.status(403).body(new DtoError("Correo inválido!"));
+				return ResponseEntity.status(403).body(new DtoResponseError("Correo inválido!"));
 
 			if (!Utilidades.validaExpRegularEmail(newUser.getEmail()))
-				return ResponseEntity.status(403).body(new DtoError("Fomato de correo inválido!"));
+				return ResponseEntity.status(403).body(new DtoResponseError("Fomato de correo inválido!"));
 
 			if (!Utilidades.validaExpRegularPassword(newUser.getPassword()))
-				return ResponseEntity.status(403).body(new DtoError("Fomato de password inválido!"));
-
+				return ResponseEntity.status(403).body(new DtoResponseError("Fomato de password inválido!"));
 			
 			Usuario usrMail = usuarioDao.findByEmail(newUser.getEmail());
 			if (usrMail != null)
-				return ResponseEntity.status(403).body(new DtoError("El correo ya está registrado!"));
-
+				return ResponseEntity.status(403).body(new DtoResponseError("El correo ya está registrado!"));
+			
 			newUser.setId(String.valueOf(UUID.nameUUIDFromBytes(newUser.getName().getBytes())));
-			newUser.setCreateAt(new Date());
-			newUser.setLastLogin(new Date());
-			newUser.setModifiedAt(new Date());
-			newUser.setToken(
-					String.valueOf(UUID.nameUUIDFromBytes((newUser.getName() + newUser.getEmail()).getBytes())));
+			newUser.setToken(String.valueOf(UUID.nameUUIDFromBytes((newUser.getName() + newUser.getEmail()).getBytes())));
 			newUser.setIsActive(true);
 			if (newUser.getPhones() != null)
 				newUser.getPhones().forEach(phone -> phoneDao.save(phone));
-			if (usuarioDao.save(newUser) != null)
-				return ResponseEntity.status(201).body(new DtoUsuario(newUser.getId(), newUser.getCreateAt(),
-						newUser.getModifiedAt(), newUser.getLastLogin(), newUser.getToken(), newUser.getIsActive()));
+			Usuario usuario = usuarioDao.save(newUser);
+			if (usuario != null) {
+				DtoResponseUsuario dtoUsuario = modelMapper.map(usuario, DtoResponseUsuario.class);
+				return ResponseEntity.status(201).body(dtoUsuario);
+			}
 			else
-				return ResponseEntity.status(400).body(new DtoError("Error al crear el suaurio!"));
+				return ResponseEntity.status(400).body(new DtoResponseError("Error al crear el usuario!"));
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body(new DtoError(e.getMessage()));
+			return ResponseEntity.status(500).body(new DtoResponseError(e.getMessage()));
 		}
 	}
 
