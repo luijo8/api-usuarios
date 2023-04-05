@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,12 @@ import com.evaluacion.utils.Utilidades;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
+	
+	@Value("${email.regex}")
+	private String emailRegex;
+	
+	@Value("${pass.regex}")
+	private String passRegex;	
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -30,11 +37,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Override
 	@Transactional(readOnly = true)
 	public ResponseEntity<Object> validaUsuario(String id, String password, Boolean isActive) {
-		try {
+		try {			
 			Usuario usr = usuarioDao.findByIdAndPasswordAndIsActive(id, password, isActive);
 			if (usr == null)
 				return ResponseEntity.status(403).body(new DtoResponseError("Credenciales inválidas!"));
@@ -66,10 +73,10 @@ public class UsuarioServiceImpl implements IUsuarioService {
 			if (newUser.getEmail() == null || newUser.getEmail().isBlank())
 				return ResponseEntity.status(403).body(new DtoResponseError("Correo inválido!"));
 
-			if (!Utilidades.validaExpRegularEmail(newUser.getEmail()))
+			if (!Utilidades.validaExpRegularEmail(emailRegex, newUser.getEmail()))
 				return ResponseEntity.status(403).body(new DtoResponseError("Fomato de correo inválido!"));
 
-			if (!Utilidades.validaExpRegularPassword(newUser.getPassword()))
+			if (!Utilidades.validaExpRegularPassword(passRegex, newUser.getPassword()))
 				return ResponseEntity.status(403).body(new DtoResponseError("Fomato de password inválido!"));
 			
 			Usuario usrMail = usuarioDao.findByEmail(newUser.getEmail());
