@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,9 @@ import com.evaluacion.utils.Utilidades;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
+	
+	@Autowired
+	private Environment env;
 	
 	@Value("${email.regex}")
 	private String emailRegex;
@@ -59,7 +63,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	@Transactional(readOnly = true)
 	public ResponseEntity<Object> listaUsuarios() {
-		return ResponseEntity.status(201).body(
+		return ResponseEntity.status(200).body(
 				usuarioDao.findAll().stream().map(
 						usuario -> modelMapper.map(
 								usuario, DtoResponseUsuario.class)).collect(Collectors.toList()));
